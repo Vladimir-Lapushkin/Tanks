@@ -1,1 +1,23 @@
-kgjged
+От Глеба Ракова
+
+class Bullet():
+def __init__(self, screen: pygame.Surface, x, y, alpha):
+self.x = x
+self.y = y
+self.alpha = alpha
+self.vx = math.cos(self.alpha) * bullet_speed
+self.vy = math.sin(self.alpha) * bullet_speed
+
+def hittest(self):
+Test = False
+for wall in walls:
+if self.x <= wall[0] + 20 and self.x >= wall[0] and self.y <= wall[1] + 20 and self.y >= wall[1]:
+Test = True
+return Test
+
+def move(self):
+self.x += self.vx
+self.y += self.vy
+
+def draw(self):
+pygame.draw.circle(screen, RED, (self.x, self.y), bullet_radius)
