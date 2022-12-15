@@ -1,1 +1,78 @@
-Anything
+От Глеба Ракова
+
+class Tank():
+def __init__(self, screen: pygame.Surface, x, y, alpha):
+self.x = x
+self.y = y
+self.angle = alpha
+self.vx = 0
+self.vy = 0
+def move(self):
+self.x += self.vx
+self.y += self.vy
+def draw(self):
+pygame.draw.polygon(screen, CYAN, [(self.x + math.cos(self.angle) * 10, self.y + math.sin(self.angle) * 10),
+(self.x - math.sin(self.angle) * 5, self.y + math.cos(self.angle) * 5),
+(self.x - math.cos(self.angle) * 10, self.y - math.sin(self.angle) * 10),
+(self.x + math.sin(self.angle) * 5, self.y - math.cos(self.angle) * 5)])
+pygame.draw.polygon(screen, CYAN, [(self.x + math.cos(self.angle) * 10 - math.sin(self.angle) * 5,
+self.y + math.sin(self.angle) * 10 + math.cos(self.angle) * 5),
+(self.x - math.cos(self.angle) * 10 - math.sin(self.angle) * 5,
+self.y - math.sin(self.angle) * 10 + math.cos(self.angle) * 5),
+(self.x - math.cos(self.angle) * 10 - math.sin(self.angle) * 8,
+self.y - math.sin(self.angle) * 10 + math.cos(self.angle) * 8),
+(self.x + math.cos(self.angle) * 10 - math.sin(self.angle) * 8,
+self.y + math.sin(self.angle) * 10 + math.cos(self.angle) * 8)])
+pygame.draw.polygon(screen, CYAN, [(self.x - math.cos(self.angle) * 10 + math.sin(self.angle) * 5,
+self.y - math.sin(self.angle) * 10 - math.cos(self.angle) * 5),
+(self.x + math.cos(self.angle) * 10 + math.sin(self.angle) * 5,
+self.y + math.sin(self.angle) * 10 - math.cos(self.angle) * 5),
+(self.x + math.cos(self.angle) * 10 + math.sin(self.angle) * 8,
+self.y + math.sin(self.angle) * 10 - math.cos(self.angle) * 8),
+(self.x - math.cos(self.angle) * 10 + math.sin(self.angle) * 8,
+self.y - math.sin(self.angle) * 10 - math.cos(self.angle) * 8)])
+pygame.draw.polygon(screen, CYAN, [(self.x + math.sin(self.angle) * 2, self.y - math.cos(self.angle) * 2),
+(self.x - math.sin(self.angle) * 2, self.y + math.cos(self.angle) * 2),
+(self.x - math.sin(self.angle) * 2 + math.cos(self.angle) * 15, self.y + math.cos(self.angle) * 2 + math.sin(self.angle) * 15),
+(self.x + math.sin(self.angle) * 2 + math.cos(self.angle) * 15, self.y - math.cos(self.angle) * 2 + math.sin(self.angle) * 15)])
+
+def hittest(self,obj):
+if (obj.x - self.x) == 0:
+if (obj.y - self.y) >= 0:
+betta = math.pi/2
+else:
+betta = - math.pi / 2
+else:
+betta = math.atan((obj.y - self.y)/(obj.x - self.x))
+if (math.fabs(math.sin(betta - self.angle) * (((obj.y - self.y)**2 + (obj.x - self.x)**2)**(1/2))) <= 8) and (math.fabs(math.cos(betta - self.angle) * (((obj.y - self.y)**2 + (obj.x - self.x)**2)**(1/2))) <= 10):
+return True
+else:
+return False
+
+def shot(self):
+bullets.append(Bullet(screen, self.x + 15 * math.cos(self.angle), self.y + 15 * math.sin(self.angle), self.angle))
+
+def dontshot(self):
+self.shoot = 0
+
+def rotate_left(self):
+self.angle += -0.1
+
+def rotate_right(self):
+self.angle += 0.1
+
+def move_forward(self):
+self.x += math.cos(self.angle) * tank_speed
+self.y += math.sin(self.angle) * tank_speed
+for wall in walls:
+if (wall[0] <= self.x) and (wall[0] + 20 >= self.x) and (wall[1] <= self.y) and (wall[1] + 20 >= self.y):
+self.x += - math.cos(self.angle) * tank_speed
+self.y += - math.sin(self.angle) * tank_speed
+
+def move_backward(self):
+self.x += - math.cos(self.angle) * tank_speed
+self.y += - math.sin(self.angle) * tank_speed
+for wall in walls:
+if (wall[0] <= self.x) and (wall[0] + 20 >= self.x) and (wall[1] <= self.y) and (wall[1] + 20 >= self.y):
+self.x += math.cos(self.angle) * tank_speed
+self.y += math.sin(self.angle) * tank_speed
