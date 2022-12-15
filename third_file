@@ -1,1 +1,64 @@
-Anything
+От Глеба Ракова
+
+import pygame
+from pygame.draw import *
+FPS = 30
+
+RED = 0xFF0000
+BLUE = 0x0000FF
+YELLOW = 0xFFC91F
+GREEN = 0x00FF00
+MAGENTA = 0xFF03B8
+CYAN = 0x00FFCC
+BLACK = (0, 0, 0)
+WHITE = 0xFFFFFF
+GREY = 0x7D7D7D
+GAME_COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
+
+WIDTH = 800
+HEIGHT = 600
+
+blocks = []
+walls = []
+
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
+finished = False
+MOUSEBUTTONDOWN_0 = False
+MOUSEBUTTONDOWN_2 = False
+
+while not finished:
+clock.tick(FPS)
+for event in pygame.event.get():
+if event.type == pygame.QUIT:
+finished = True
+elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]:
+pygame.draw.rect(screen, RED, (20 * (event.pos[0]//20), 20 * (event.pos[1]//20), 20, 20), 10)
+pygame.display.update()
+blocks.append([20 * (event.pos[0] // 20), 20 * (event.pos[1] // 20)])
+MOUSEBUTTONDOWN_0 = True
+elif event.type == pygame.MOUSEMOTION and pygame.mouse.get_pressed()[0]:
+if MOUSEBUTTONDOWN_0:
+pygame.draw.rect(screen, RED, (20 * (event.pos[0] // 20), 20 * (event.pos[1] // 20), 20, 20), 10)
+pygame.display.update()
+blocks.append([20 * (event.pos[0] // 20), 20 * (event.pos[1] // 20) ])
+elif event.type == pygame.MOUSEBUTTONUP and pygame.mouse.get_pressed()[0]:
+MOUSEBUTTONDOWN_0 = False
+
+elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[2]:
+pygame.draw.rect(screen, YELLOW, (20 * (event.pos[0]//20), 20 * (event.pos[1]//20), 20, 20), 10)
+pygame.display.update()
+walls.append([20 * (event.pos[0] // 20), 20 * (event.pos[1] // 20)])
+MOUSEBUTTONDOWN_2 = True
+elif event.type == pygame.MOUSEMOTION and pygame.mouse.get_pressed()[2]:
+if MOUSEBUTTONDOWN_2:
+pygame.draw.rect(screen, YELLOW, (20 * (event.pos[0] // 20), 20 * (event.pos[1] // 20), 20, 20), 10)
+pygame.display.update()
+walls.append([20 * (event.pos[0] // 20), 20 * (event.pos[1] // 20) ])
+elif event.type == pygame.MOUSEBUTTONUP and pygame.mouse.get_pressed()[2]:
+MOUSEBUTTONDOWN_2 = False
+
+pygame.quit()
+print(blocks)
+print(walls)
